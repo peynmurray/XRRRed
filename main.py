@@ -1,6 +1,10 @@
 import sys
 from PyQt5 import QtWidgets
 import XRRRedGUI
+import pyqtgraph as pg
+from ReflectometryData import ReflectometryData
+from ReflectometryBundle import ReflectometryBundle
+import numpy as np
 
 class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
@@ -9,6 +13,9 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.setupUi(self)
 		self.connectButtons()
 		self.connectSignals()
+
+		self.dataBundle = ReflectometryBundle()
+
 		return
 
 	def connectButtons(self):
@@ -32,15 +39,39 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
 		return
 
-	def specWidgetItemClicked(self, item):
+	# def toPlot(self, data):
+	# 	self.plot.addItem(pg.ScatterPlotItem(x=data.getQ(), y=data.getIntensity(), symbol='t', symbolPen=None, symbolSize=10, symbolBrush=(100, 100, 255, 50)))
+	# 	return
+
+	def plotDataBundle(self):
+		self.plot.clear()
+
+		for specScan in self.dataBundle.getSpecScans():
+			self.plot.addItem(pg.ScatterPlotItem(x=specScan.getTwoTheta(), y=specScan.getIntensity(), symbol='t', symbolPen=None, symbolSize=10, symbolBrush=(100, 100, 255, 50)))
+
+		self.plot.setLogMode(y=True)
+
+		self.plot.repaint()
+		return
+
+	def specWidgetItemClicked(self):
+
+		items = [item.text() for item in self.specWidget.selectedItems()]
+		self.dataBundle.addSpecScans(items)
+		self.plotDataBundle()
+		return
+
+	def backWidgetItemClicked(self):
+
+		items = [item.text() for item in self.backWidget.selectedItems()]
+		self.dataBundle.addBackScans(items)
 
 		return
 
-	def backWidgetItemClicked(self, item):
+	def slitWidgetItemClicked(self):
 
-		return
-
-	def slitWidgetItemClicked(self, item):
+		items = [item.text() for item in self.slitWidget.selectedItems()]
+		self.dataBundle.addSlitScans(items)
 
 		return
 
