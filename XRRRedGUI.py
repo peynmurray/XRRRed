@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'XRRRedGUI.ui'
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -202,19 +202,23 @@ class Ui_MainWindow(object):
         self.actionExport.setObjectName("actionExport")
         self.actionQ = QtWidgets.QAction(MainWindow)
         self.actionQ.setCheckable(True)
+        self.actionQ.setChecked(True)
         self.actionQ.setObjectName("actionQ")
         self.action2Theta = QtWidgets.QAction(MainWindow)
         self.action2Theta.setCheckable(True)
         self.action2Theta.setObjectName("action2Theta")
         self.actionLinear = QtWidgets.QAction(MainWindow)
+        self.actionLinear.setCheckable(True)
         self.actionLinear.setObjectName("actionLinear")
         self.actionLog = QtWidgets.QAction(MainWindow)
+        self.actionLog.setCheckable(True)
+        self.actionLog.setChecked(True)
         self.actionLog.setObjectName("actionLog")
         self.menuFile.addAction(self.actionExport)
         self.menuX_axis.addAction(self.actionQ)
         self.menuX_axis.addAction(self.action2Theta)
-        self.menuY_Axis.addAction(self.actionLinear)
         self.menuY_Axis.addAction(self.actionLog)
+        self.menuY_Axis.addAction(self.actionLinear)
         self.menuOptions.addAction(self.menuX_axis.menuAction())
         self.menuOptions.addAction(self.menuY_Axis.menuAction())
         self.menubar.addAction(self.menuFile.menuAction())

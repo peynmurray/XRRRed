@@ -54,7 +54,7 @@ class ReflectometryData:
 		:return:
 		"""
 
-		self.Q = 4*np.pi*np.sin(self.twoTheta/2.0)/self.wavelength
+		self.Q = 4*np.pi*np.sin((np.pi/180)*self.twoTheta/2.0)/self.wavelength
 		return
 
 

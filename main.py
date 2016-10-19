@@ -15,6 +15,7 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.connectSignals()
 
 		self.dataBundle = ReflectometryBundle()
+		self.refreshPlot()
 
 		return
 
@@ -37,21 +38,44 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.backWidget.itemSelectionChanged.connect(self.backWidgetItemClicked)
 		self.slitWidget.itemSelectionChanged.connect(self.slitWidgetItemClicked)
 
+		# self.actionQ.toggled.connect(self.actionQToggled)
+		# self.action2Theta.toggled.connect(self.action2ThetaToggled)
+		self.actionLog.toggled.connect(self.actionLogToggled)
+		self.actionLinear.toggled.connect(self.actionLinearToggled)
+
 		return
 
-	# def toPlot(self, data):
-	# 	self.plot.addItem(pg.ScatterPlotItem(x=data.getQ(), y=data.getIntensity(), symbol='t', symbolPen=None, symbolSize=10, symbolBrush=(100, 100, 255, 50)))
-	# 	return
+	def actionLogToggled(self, status):
+		if status:
+			self.actionLinear.setChecked(False)
+			self.refreshPlot()
+		else:
+			self.actionLog.setChecked(True)
+		return
+
+	def actionLinearToggled(self, status):
+		self.actionLog.setChecked(not status)
+		self.refreshPlot()
+		return
+
+	def xAxisToggled(self):
+		return
+
+	def yAxisToggled(self):
+		return
 
 	def plotDataBundle(self):
 		self.plot.clear()
 
+		if self.getXCoordinate() == "Q":
+			getX = lambda scan: scan.getQ()
+		else:
+			getX = lambda scan: scan.getTwoTheta()
+
 		for specScan in self.dataBundle.getSpecScans():
-			self.plot.addItem(pg.ScatterPlotItem(x=specScan.getTwoTheta(), y=specScan.getIntensity(), symbol='t', symbolPen=None, symbolSize=10, symbolBrush=(100, 100, 255, 50)))
+			self.plot.addItem(pg.PlotDataItem(x=getX(specScan), y=specScan.getIntensity(), symbol='t', pen=None, symbolPen=None, symbolSize=10, symbolBrush=(100, 100, 255, 50)))
 
-		self.plot.setLogMode(y=True)
-
-		self.plot.repaint()
+		self.refreshPlot()
 		return
 
 	def specWidgetItemClicked(self):
@@ -105,6 +129,29 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		return
 
 	def footprintApplyClicked(self):
+		return
+
+	def getXCoordinate(self):
+		if self.actionQ.isChecked():
+			return "Q"
+		else:
+			return "twoTheta"
+
+	def refreshPlot(self):
+
+		self.plot.getPlotItem().setLabel("left", text="Intensity")
+
+		if self.actionLog.isChecked():
+			self.plot.getPlotItem().setLogMode(y=True)
+
+		if self.actionQ.isChecked():
+			self.plot.getPlotItem().setLabel("bottom", text="Q (1/A)")
+		else:
+			self.plot.getPlotItem().setLabel("bottom", text="2Theta (°)")
+
+
+		self.plot.repaint()
+
 		return
 
 

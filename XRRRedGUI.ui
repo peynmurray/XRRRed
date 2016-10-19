@@ -429,8 +429,8 @@
      <property name="title">
       <string>Y-Axis</string>
      </property>
-     <addaction name="actionLinear"/>
      <addaction name="actionLog"/>
+     <addaction name="actionLinear"/>
     </widget>
     <addaction name="menuX_axis"/>
     <addaction name="menuY_Axis"/>
@@ -459,6 +459,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Q</string>
    </property>
@@ -472,11 +475,20 @@
    </property>
   </action>
   <action name="actionLinear">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Linear</string>
    </property>
   </action>
   <action name="actionLog">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Log</string>
    </property>
