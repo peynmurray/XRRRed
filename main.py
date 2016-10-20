@@ -5,6 +5,7 @@ import pyqtgraph as pg
 from ReflectometryData import ReflectometryData
 from ReflectometryBundle import ReflectometryBundle
 import numpy as np
+from CustomViewBox import CustomViewBox
 
 class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
@@ -15,6 +16,7 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.connectSignals()
 
 		self.dataBundle = ReflectometryBundle()
+		self.initializePlot()
 		self.refreshPlot()
 
 		return
@@ -151,6 +153,14 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
 
 		self.plot.repaint()
+
+		return
+
+	def initializePlot(self):
+
+		vb = CustomViewBox()
+
+		self.plot = pg.PlotWidget(parent=self, viewbox=vb, title="Reflectivity")
 
 		return
 

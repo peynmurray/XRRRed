@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'XRRRedGUI.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -81,6 +81,9 @@ class Ui_MainWindow(object):
         self.loadSlitButton.setObjectName("loadSlitButton")
         self.verticalLayout_5.addWidget(self.loadSlitButton)
         self.gridLayout_2.addWidget(self.splitter, 0, 0, 2, 1)
+        self.plotLayout = QtWidgets.QVBoxLayout()
+        self.plotLayout.setObjectName("plotLayout")
+        self.gridLayout_2.addLayout(self.plotLayout, 0, 1, 3, 1)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -169,15 +172,12 @@ class Ui_MainWindow(object):
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 0, 0, 1, 3)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 2, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(20, 471, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem, 1, 2, 2, 1)
         self.logWidget = QtWidgets.QListWidget(self.centralwidget)
         self.logWidget.setMaximumSize(QtCore.QSize(300, 16777215))
         self.logWidget.setObjectName("logWidget")
         self.gridLayout_2.addWidget(self.logWidget, 2, 0, 1, 1)
-        self.plot = PlotWidget(self.centralwidget)
-        self.plot.setObjectName("plot")
-        self.gridLayout_2.addWidget(self.plot, 0, 1, 3, 1)
-        spacerItem = QtWidgets.QSpacerItem(20, 471, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem, 1, 2, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1107, 21))
@@ -260,4 +260,3 @@ class Ui_MainWindow(object):
         self.actionLinear.setText(_translate("MainWindow", "Linear"))
         self.actionLog.setText(_translate("MainWindow", "Log"))
 
-from pyqtgraph import PlotWidget
