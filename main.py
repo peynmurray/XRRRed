@@ -5,6 +5,7 @@ import pyqtgraph as pg
 from ReflectometryData import ReflectometryData
 from ReflectometryBundle import ReflectometryBundle
 import numpy as np
+from scipy.optimize import curve_fit
 from CustomViewBox import CustomViewBox
 
 class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
@@ -31,6 +32,7 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.footprintRangeFull.clicked.connect(self.footprintRangeFullClicked)
 		self.footprintRangeFromGraph.clicked.connect(self.footprintRangeFromGraphClicked)
 		self.footprintApply.clicked.connect(self.footprintApplyClicked)
+		self.combineSpecButton.clicked.connect(self.combineSpecScansButtonClicked)
 
 		return
 
@@ -75,7 +77,20 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 			getX = lambda scan: scan.getTwoTheta()
 
 		for specScan in self.dataBundle.getSpecScans():
-			self.plot.addItem(pg.PlotDataItem(x=getX(specScan), y=specScan.getIntensity(), symbol='t', pen=None, symbolPen=None, symbolSize=10, symbolBrush=(100, 100, 255, 50)))
+			self.plot.addItem(pg.PlotDataItem(x=getX(specScan), y=specScan.getIntensity(), symbol='t', pen=None, symbolPen=None, symbolSize=10, symbolBrush=(100, 100, 255, 100)))
+
+		if self.dataBundle.isProcessed():
+			self.plot.addItem(pg.PlotDataItem(x=getX(self.dataBundle.getProcessed()), y=self.dataBundle.getProcessed().getIntensity(), symbol='t', pen=None, symbolPen=None, symbolSize=10, symbolBrush=(255, 100, 100, 100)))
+
+		if self.footprintSlope.value() != 0 and self.footprintIntercept.value() != 0:
+
+			x = np.linspace(0, .03, 1000)
+			y = self.footprintSlope.value()*x + self.footprintIntercept.value()
+
+			self.plot.addItem(pg.PlotDataItem(x=x, y=y))
+
+			# fitLine = pg.InfiniteLine(pos=pg.Point(0, self.footprintIntercept.value()), angle=np.arctan(self.footprintSlope.value()))
+			# self.plot.addItem(fitLine)
 
 		self.refreshPlot()
 		return
@@ -91,6 +106,7 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
 		items = [item.text() for item in self.backWidget.selectedItems()]
 		self.dataBundle.addBackScans(items)
+		self.plotDataBundle()
 
 		return
 
@@ -98,11 +114,24 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
 		items = [item.text() for item in self.slitWidget.selectedItems()]
 		self.dataBundle.addSlitScans(items)
+		self.plotDataBundle()
 
 		return
 
 	def loadFile(self, listWidget):
+
+		#Dialog box for filenames
 		filenames = QtWidgets.QFileDialog.getOpenFileNames(parent=self, caption="Select data files: ")[0]
+
+		#Get files already in listWidget
+		listedFiles = [listWidget.item(i).text() for i in range(listWidget.count())]
+
+		#Strip out filenames that are in the list already
+		for i in range(len(filenames)):
+			if filenames[i] in listedFiles:
+				del filenames[i]
+
+		#Add filenames to the listwidget
 		listWidget.addItems(filenames)
 		return
 
@@ -119,6 +148,21 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		return
 
 	def footprintCalcGuessClicked(self):
+
+		scan = self.dataBundle.getProcessed()
+		indexMaxIntensity = scan.getIndexMaxIntensity()
+		xdata = scan.getQ()[0:indexMaxIntensity]
+		ydata = scan.getIntensity()[0:indexMaxIntensity]
+
+		fitFunction = lambda x, a, b: a*x + b
+		fitParameters, fitConvariances = curve_fit(fitFunction, xdata, ydata)
+
+		a, b = fitParameters[0], fitParameters[1]
+
+		self.footprintSlope.setValue(a)
+		self.footprintIntercept.setValue(b)
+
+		self.plotDataBundle()
 		return
 
 	def footprintCalcFromGraphClicked(self):
@@ -151,17 +195,19 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		else:
 			self.plot.getPlotItem().setLabel("bottom", text="2Theta (°)")
 
-
 		self.plot.repaint()
 
 		return
 
 	def initializePlot(self):
-
 		vb = CustomViewBox()
-
 		self.plot = pg.PlotWidget(parent=self, viewbox=vb, title="Reflectivity")
+		self.plotLayout.addWidget(self.plot)
+		return
 
+	def combineSpecScansButtonClicked(self):
+		self.dataBundle.combineSpecScans()
+		self.plotDataBundle()
 		return
 
 

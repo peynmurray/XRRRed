@@ -6,30 +6,52 @@ import numpy as np
 
 class ReflectometryData:
 
-	def __init__(self, filename, filetype=None, wavelength=None):
+	def __init__(self, filename=None, filetype=None, twoTheta=None, Q=None, intensity=None,  wavelength=None):
 
-		#Determine filetype from the file extension
-		if filetype is None:
-			filetype = filename.split(sep=".")[-1]
-
-		#Use different read_csv options depending on the filetype
-		if filetype == "xy":
-			raw_data = pd.read_csv(filename, header=None, sep="\t", names=["TwoTheta", "Intensity"])
-		else:
-			raise ValueError("Invalid filetype.")
-
-		#Default wavelength is 1.54056 angstroms (Cu K-alpha)
+		# Default wavelength is 1.54056 angstroms (Cu K-alpha)
 		if wavelength is None:
 			self.wavelength = 1.54056
 		else:
 			assert type(wavelength) == float
 			self.wavelength = wavelength
 
-		self.filename = filename
-		self.twoTheta = np.array(raw_data["TwoTheta"])
-		self.intensity = np.array(raw_data["Intensity"])
-		self.Q = 0 * self.twoTheta
-		self.updateQ()
+		if intensity is not None and filename is None:
+
+			self.intensity = intensity
+			self.filename = "Data was input as arrays, not from file."
+
+			if twoTheta is None and Q is not None:
+				self.Q = np.array(Q)
+				self.twoTheta = 0 * self.Q
+				self.updateTwoTheta()
+			elif twoTheta is not None and Q is None:
+				self.twoTheta = np.array(twoTheta)
+				self.Q = 0 * self.twoTheta
+				self.updateQ()
+			else:
+				raise ValueError("Either twoTheta or Q must be specified, and not both.")
+
+
+		elif intensity is None and twoTheta is None and Q is None and filename is not None:
+
+			#Determine filetype from the file extension
+			if filetype is None:
+				filetype = filename.split(sep=".")[-1]
+
+			#Use different read_csv options depending on the filetype
+			if filetype == "xy":
+				raw_data = pd.read_csv(filename, header=None, sep="\t", names=["TwoTheta", "Intensity"])
+			else:
+				raise ValueError("Invalid filetype.")
+
+			self.filename = filename
+			self.twoTheta = np.array(raw_data["TwoTheta"])
+			self.intensity = np.array(raw_data["Intensity"])
+			self.Q = 0 * self.twoTheta
+			self.updateQ()
+
+		else:
+			raise ValueError("Invalid parameters pass to ReflectometryData constructor.")
 
 		return
 
@@ -42,7 +64,6 @@ class ReflectometryData:
 		"""
 
 		self.wavelength = wavelength
-		self.updateQ()
 		return
 
 	def getWavelength(self):
@@ -57,6 +78,10 @@ class ReflectometryData:
 		self.Q = 4*np.pi*np.sin((np.pi/180)*self.twoTheta/2.0)/self.wavelength
 		return
 
+	def updateTwoTheta(self):
+		self.twoTheta = 2*np.arcsin((self.Q*self.wavelength)/(4*np.pi))*np.pi/180
+		return
+
 
 	def getTwoTheta(self):
 		return self.twoTheta
@@ -69,3 +94,15 @@ class ReflectometryData:
 
 	def getFilename(self):
 		return self.filename
+
+	def getMaxIntensity(self):
+		return np.max(self.intensity)
+
+	def getIndexMaxIntensity(self):
+		return np.argmax(self.intensity)
+
+	def getMaxQ(self):
+		return np.max(self.Q)
+
+	def getMinQ(self):
+		return np.min(self.Q)
