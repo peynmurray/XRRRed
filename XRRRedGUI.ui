@@ -14,53 +14,45 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="1" rowspan="3">
-     <layout class="QVBoxLayout" name="plotLayout"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QListWidget" name="logWidget">
-      <property name="maximumSize">
-       <size>
-        <width>300</width>
-        <height>16777215</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2" rowspan="2">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>471</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="0" rowspan="2">
-     <widget class="QSplitter" name="splitter">
-      <property name="maximumSize">
-       <size>
-        <width>300</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="maximumSize">
-        <size>
-         <width>300</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="1" column="0" colspan="2">
+         <widget class="QListWidget" name="specWidget">
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="loadSpecButton">
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Load Specular</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="deleteSpecButton">
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
          <widget class="QLabel" name="label_4">
           <property name="maximumSize">
            <size>
@@ -76,8 +68,12 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QListWidget" name="specWidget">
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="0" colspan="2">
+         <widget class="QListWidget" name="backWidget">
           <property name="maximumSize">
            <size>
             <width>300</width>
@@ -89,8 +85,8 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="loadSpecButton">
+        <item row="2" column="0">
+         <widget class="QPushButton" name="loadBackButton">
           <property name="maximumSize">
            <size>
             <width>300</width>
@@ -98,21 +94,18 @@
            </size>
           </property>
           <property name="text">
-           <string>Load Specular</string>
+           <string>Load Background</string>
           </property>
          </widget>
         </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="maximumSize">
-        <size>
-         <width>300</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="deleteBackgroundButton">
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
          <widget class="QLabel" name="label_5">
           <property name="maximumSize">
            <size>
@@ -128,8 +121,12 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QListWidget" name="backWidget">
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="1" column="0" colspan="2">
+         <widget class="QListWidget" name="slitWidget">
           <property name="maximumSize">
            <size>
             <width>300</width>
@@ -141,8 +138,8 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="loadBackButton">
+        <item row="2" column="0">
+         <widget class="QPushButton" name="loadSlitButton">
           <property name="maximumSize">
            <size>
             <width>300</width>
@@ -150,21 +147,18 @@
            </size>
           </property>
           <property name="text">
-           <string>Load Background</string>
+           <string>Load Slit</string>
           </property>
          </widget>
         </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="maximumSize">
-        <size>
-         <width>300</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="deleteSlitButton">
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
          <widget class="QLabel" name="label_6">
           <property name="maximumSize">
            <size>
@@ -180,239 +174,43 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QListWidget" name="slitWidget">
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="selectionMode">
-           <enum>QAbstractItemView::ExtendedSelection</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="loadSlitButton">
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Load Slit</string>
-          </property>
-         </widget>
-        </item>
        </layout>
-      </widget>
-     </widget>
+      </item>
+      <item>
+       <widget class="QListWidget" name="logWidget">
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
-    <item row="0" column="2">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="0" colspan="3">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Footprint Correction</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item>
-         <widget class="QLabel" name="label_8">
+    <item>
+     <layout class="QVBoxLayout" name="plotLayout"/>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="1" column="0" colspan="3">
+         <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Starting Q</string>
+           <string>Footprint Correction</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QDoubleSpinBox" name="footprintRangeMin">
-          <property name="buttonSymbols">
-           <enum>QAbstractSpinBox::NoButtons</enum>
-          </property>
-          <property name="decimals">
-           <number>10</number>
-          </property>
-          <property name="minimum">
-           <double>-1000000000000000042420637374017961984.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>9999999999999999538762658202121142272.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="4" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_7">
-        <item>
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string>Starting Q</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QDoubleSpinBox" name="footprintRangeMax">
-          <property name="buttonSymbols">
-           <enum>QAbstractSpinBox::NoButtons</enum>
-          </property>
-          <property name="decimals">
-           <number>10</number>
-          </property>
-          <property name="minimum">
-           <double>-1000000000000000042420637374017961984.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>9999999999999999538762658202121142272.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="4" column="2">
-       <layout class="QVBoxLayout" name="verticalLayout_8">
-        <item>
-         <widget class="QPushButton" name="footprintRangeFull">
-          <property name="text">
-           <string>Full Range</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="footprintRangeFromGraph">
-          <property name="text">
-           <string>From Graph...</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Ending Q</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QDoubleSpinBox" name="footprintCalcMax">
-          <property name="buttonSymbols">
-           <enum>QAbstractSpinBox::NoButtons</enum>
-          </property>
-          <property name="decimals">
-           <number>10</number>
-          </property>
-          <property name="minimum">
-           <double>-1000000000000000042420637374017961984.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>9999999999999999538762658202121142272.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="7" column="0" colspan="3">
-       <widget class="QPushButton" name="footprintApply">
-        <property name="text">
-         <string>Apply</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Starting Q</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QDoubleSpinBox" name="footprintCalcMin">
-          <property name="buttonSymbols">
-           <enum>QAbstractSpinBox::NoButtons</enum>
-          </property>
-          <property name="decimals">
-           <number>10</number>
-          </property>
-          <property name="minimum">
-           <double>-1000000000000000042420637374017961984.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>9999999999999999538762658202121142272.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="3" column="0" colspan="3">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Correction Range</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <layout class="QVBoxLayout" name="verticalLayout_9">
-        <item>
-         <widget class="QPushButton" name="footprintCalcGuess">
-          <property name="text">
-           <string>Guess</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="footprintCalcFromGraph">
-          <property name="text">
-           <string>From Graph...</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="5" column="0" colspan="3">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Fit Parameters</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0" colspan="3">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_10">
+        <item row="4" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
-           <widget class="QLabel" name="label_11">
+           <widget class="QLabel" name="label_8">
             <property name="text">
-             <string>Slope</string>
+             <string>Starting Q</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -420,7 +218,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="footprintSlope">
+           <widget class="QDoubleSpinBox" name="footprintRangeMin">
             <property name="buttonSymbols">
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
@@ -428,21 +226,21 @@
              <number>10</number>
             </property>
             <property name="minimum">
-             <double>-10000000000000000102350670204085511496304388135324745728.000000000000000</double>
+             <double>-1000000000000000042420637374017961984.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>1000000000000000048346692115553659057528394845890514255872.000000000000000</double>
+             <double>9999999999999999538762658202121142272.000000000000000</double>
             </property>
            </widget>
           </item>
          </layout>
         </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item row="4" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <widget class="QLabel" name="label_12">
+           <widget class="QLabel" name="label_9">
             <property name="text">
-             <string>Intercept</string>
+             <string>Starting Q</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -450,7 +248,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="footprintIntercept">
+           <widget class="QDoubleSpinBox" name="footprintRangeMax">
             <property name="buttonSymbols">
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
@@ -458,23 +256,223 @@
              <number>10</number>
             </property>
             <property name="minimum">
-             <double>-100000000000000009190283508143378238084034459715684532224.000000000000000</double>
+             <double>-1000000000000000042420637374017961984.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>10000000000000000102350670204085511496304388135324745728.000000000000000</double>
+             <double>9999999999999999538762658202121142272.000000000000000</double>
             </property>
            </widget>
           </item>
          </layout>
         </item>
+        <item row="4" column="2">
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="QPushButton" name="footprintRangeFull">
+            <property name="text">
+             <string>Full Range</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="footprintRangeFromGraph">
+            <property name="text">
+             <string>From Graph...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Ending Q</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="footprintCalcMax">
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000042420637374017961984.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>9999999999999999538762658202121142272.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="7" column="0" colspan="3">
+         <widget class="QPushButton" name="footprintApply">
+          <property name="text">
+           <string>Apply</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Starting Q</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="footprintCalcMin">
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000042420637374017961984.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>9999999999999999538762658202121142272.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0" colspan="3">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Correction Range</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <item>
+           <widget class="QPushButton" name="footprintCalcGuess">
+            <property name="text">
+             <string>Guess</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="footprintCalcFromGraph">
+            <property name="text">
+             <string>From Graph...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="5" column="0" colspan="3">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Fit Parameters</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" colspan="3">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <item>
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Slope</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="footprintSlope">
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>10</number>
+              </property>
+              <property name="minimum">
+               <double>-10000000000000000102350670204085511496304388135324745728.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1000000000000000048346692115553659057528394845890514255872.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_11">
+            <item>
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Intercept</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="footprintIntercept">
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>10</number>
+              </property>
+              <property name="minimum">
+               <double>-100000000000000009190283508143378238084034459715684532224.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>10000000000000000102350670204085511496304388135324745728.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0" colspan="3">
+         <widget class="QPushButton" name="combineScansButton">
+          <property name="text">
+           <string>Combine Scans</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
-      <item row="0" column="0" colspan="3">
-       <widget class="QPushButton" name="combineSpecButton">
-        <property name="text">
-         <string>Combine Specular Scans</string>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
-       </widget>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>471</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>

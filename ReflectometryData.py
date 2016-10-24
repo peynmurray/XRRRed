@@ -106,3 +106,27 @@ class ReflectometryData:
 
 	def getMinQ(self):
 		return np.min(self.Q)
+
+	def __add__(self, scan):
+		return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()+scan.getIntensity())
+
+	def __sub__(self, scan):
+		return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity() - scan.getIntensity())
+
+	def __mul__(self, value):
+		if type(value) == float:
+			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()*value)
+		elif type(value) == ReflectometryData:
+			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()*value.getIntensity())
+
+	def __truediv__(self, value):
+		if type(value) == float:
+			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()/value)
+		elif type(value) == ReflectometryData:
+			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()/value.getIntensity())
+
+	def __floordiv__(self, value):
+		if type(value) == float:
+			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()/value)
+		elif type(value) == ReflectometryData:
+			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()/value.getIntensity())

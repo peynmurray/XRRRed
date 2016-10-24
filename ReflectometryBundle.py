@@ -117,11 +117,24 @@ class ReflectometryBundle:
 			self.addSlitScan(scan=scan, filetype=filetype, wavelength=wavelength)
 		return
 
-	def combineSpecScans(self):
+	def combineScans(self, transmissionCoefficient=1.0):
 
 		#If some scans have some points in overlapping Q ranges, average those. Otherwise, stitch them togeether.
 
-		self.processedScan = self.stitchScans(self.specScans)
+		combinedSpecScan = self.stitchScans(self.specScans)
+		combinedBackScan = self.stitchScans(self.backScans)
+		combinedSlitScan = self.stitchScans(self.slitScans)
+
+		if combinedSpecScan is None:
+			raise ValueError("No spec scans available!")
+		elif combinedBackScan is None and combinedSlitScan is None:
+			self.processedScan = combinedSpecScan
+		elif combinedBackScan is None and combinedSlitScan is not None:
+			self.processedScan = combinedSpecScan/(transmissionCoefficient*combinedSlitScan)
+		elif combinedBackScan is not None and combinedSlitScan is None:
+			self.processedScan = (combinedSpecScan-combinedBackScan)
+		else:
+			self.processedScan = (combinedSpecScan - combinedBackScan)/(transmissionCoefficient*combinedSlitScan)
 
 		return
 
@@ -144,6 +157,9 @@ class ReflectometryBundle:
 
 	def stitchScans(self, scans):
 
+		if len(scans) == 0:
+			return None
+
 		sortedScans = self.sortScans(scans)
 
 		#Q is the proper coordinate to stitch together here because if scans are done with different
@@ -161,4 +177,16 @@ class ReflectometryBundle:
 		return False if self.processedScan is None else True
 
 	def getProcessed(self):
-		return self.processedScan
+		if self.isProcessed():
+			return self.processedScan
+		else:
+			return None
+
+	def getNSpec(self):
+		return len(self.specScans)
+
+	def getNBack(self):
+		return len(self.backScans)
+
+	def getNSlit(self):
+		return len(self.slitScans)

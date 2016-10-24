@@ -32,15 +32,11 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.footprintRangeFull.clicked.connect(self.footprintRangeFullClicked)
 		self.footprintRangeFromGraph.clicked.connect(self.footprintRangeFromGraphClicked)
 		self.footprintApply.clicked.connect(self.footprintApplyClicked)
-		self.combineSpecButton.clicked.connect(self.combineSpecScansButtonClicked)
+		self.combineScansButton.clicked.connect(self.combineScansButtonClicked)
 
 		return
 
 	def connectSignals(self):
-
-		self.specWidget.itemSelectionChanged.connect(self.specWidgetItemClicked)
-		self.backWidget.itemSelectionChanged.connect(self.backWidgetItemClicked)
-		self.slitWidget.itemSelectionChanged.connect(self.slitWidgetItemClicked)
 
 		# self.actionQ.toggled.connect(self.actionQToggled)
 		# self.action2Theta.toggled.connect(self.action2ThetaToggled)
@@ -71,80 +67,47 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 	def plotDataBundle(self):
 		self.plot.clear()
 
-		if self.getXCoordinate() == "Q":
-			getX = lambda scan: scan.getQ()
-		else:
-			getX = lambda scan: scan.getTwoTheta()
-
-		for specScan in self.dataBundle.getSpecScans():
-			self.plot.addItem(pg.PlotDataItem(x=getX(specScan), y=specScan.getIntensity(), symbol='t', pen=None, symbolPen=None, symbolSize=10, symbolBrush=(100, 100, 255, 100)))
+		getX = lambda scan: scan.getQ() if self.getXCoordinate() == "Q" else lambda scan: scan.getTwoTheta()
 
 		if self.dataBundle.isProcessed():
-			self.plot.addItem(pg.PlotDataItem(x=getX(self.dataBundle.getProcessed()), y=self.dataBundle.getProcessed().getIntensity(), symbol='t', pen=None, symbolPen=None, symbolSize=10, symbolBrush=(255, 100, 100, 100)))
+			self.plot.addItem(pg.PlotDataItem(x=getX(self.dataBundle.getProcessed()), y=self.dataBundle.getProcessed().getIntensity(), symbol='t', pen=None, symbolPen=None, symbolSize=10, symbolBrush=(255, 100, 100, 100), name="Data"))
+		else:
+			for specScan in self.dataBundle.getSpecScans():
+				self.plot.addItem(pg.PlotDataItem(x=getX(specScan), y=specScan.getIntensity(), symbol='t', pen=None, symbolPen=None,symbolSize=10, symbolBrush=(100, 100, 255, 100)))
 
-		if self.footprintSlope.value() != 0 and self.footprintIntercept.value() != 0:
-
-			x = np.linspace(0, .03, 1000)
-			y = self.footprintSlope.value()*x + self.footprintIntercept.value()
-
-			self.plot.addItem(pg.PlotDataItem(x=x, y=y))
-
-			# fitLine = pg.InfiniteLine(pos=pg.Point(0, self.footprintIntercept.value()), angle=np.arctan(self.footprintSlope.value()))
-			# self.plot.addItem(fitLine)
-
+		self.plot.autoRange()
 		self.refreshPlot()
 		return
 
-	def specWidgetItemClicked(self):
-
-		items = [item.text() for item in self.specWidget.selectedItems()]
-		self.dataBundle.addSpecScans(items)
-		self.plotDataBundle()
-		return
-
-	def backWidgetItemClicked(self):
-
-		items = [item.text() for item in self.backWidget.selectedItems()]
-		self.dataBundle.addBackScans(items)
-		self.plotDataBundle()
-
-		return
-
-	def slitWidgetItemClicked(self):
-
-		items = [item.text() for item in self.slitWidget.selectedItems()]
-		self.dataBundle.addSlitScans(items)
-		self.plotDataBundle()
-
-		return
-
-	def loadFile(self, listWidget):
-
-		#Dialog box for filenames
-		filenames = QtWidgets.QFileDialog.getOpenFileNames(parent=self, caption="Select data files: ")[0]
-
-		#Get files already in listWidget
-		listedFiles = [listWidget.item(i).text() for i in range(listWidget.count())]
-
-		#Strip out filenames that are in the list already
-		for i in range(len(filenames)):
-			if filenames[i] in listedFiles:
-				del filenames[i]
-
-		#Add filenames to the listwidget
-		listWidget.addItems(filenames)
+	def plotFootprintCorrectionCurve(self):
+		x = np.linspace(self.footprintRangeMin.value(), self.footprintRangeMax.value(), 1000)
+		y = self.footprintSlope.value()*x + self.footprintIntercept.value()
+		self.plot.addItem(pg.PlotDataItem(x=x, y=y, name="Footprint Correction"))
+		self.plot.autoRange()
 		return
 
 	def loadSpecButtonClicked(self):
-		self.loadFile(self.specWidget)
+		filenames = QtWidgets.QFileDialog.getOpenFileNames(parent=self, caption="Select data files: ")[0]
+		self.dataBundle.addSpecScans(filenames)
+		self.specWidget.clear()
+		self.specWidget.addItems(filenames)
+		self.plotDataBundle()
 		return
 
 	def loadBackButtonClicked(self):
-		self.loadFile(self.backWidget)
+		filenames = QtWidgets.QFileDialog.getOpenFileNames(parent=self, caption="Select data files: ")[0]
+		self.dataBundle.addBackScans(filenames)
+		self.backWidget.clear()
+		self.backWidget.addItems(filenames)
+		self.plotDataBundle()
 		return
 
 	def loadSlitButtonClicked(self):
-		self.loadFile(self.slitWidget)
+		filenames = QtWidgets.QFileDialog.getOpenFileNames(parent=self, caption="Select data files: ")[0]
+		self.dataBundle.addSlitScans(filenames)
+		self.slitWidget.clear()
+		self.slitWidget.addItems(filenames)
+		self.plotDataBundle()
 		return
 
 	def footprintCalcGuessClicked(self):
@@ -163,15 +126,25 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.footprintIntercept.setValue(b)
 
 		self.plotDataBundle()
+		self.plotFootprintCorrectionCurve()
 		return
 
 	def footprintCalcFromGraphClicked(self):
+		self.plotDataBundle()
+		self.plotFootprintCorrectionCurve()
+		self.plot.autoRange()
 		return
 
 	def footprintRangeFullClicked(self):
+		self.plotDataBundle()
+		self.plotFootprintCorrectionCurve()
+		self.plot.autoRange()
 		return
 
 	def footprintRangeFromGraphClicked(self):
+		self.plotDataBundle()
+		self.plotFootprintCorrectionCurve()
+		self.plot.autoRange()
 		return
 
 	def footprintApplyClicked(self):
@@ -205,11 +178,19 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.plotLayout.addWidget(self.plot)
 		return
 
-	def combineSpecScansButtonClicked(self):
-		self.dataBundle.combineSpecScans()
-		self.plotDataBundle()
+	def combineScansButtonClicked(self):
+		try:
+			self.dataBundle.combineScans()
+			self.plotDataBundle()
+			self.footprintRangeMin.setValue(self.dataBundle.getProcessed().getMinQ())
+			self.footprintRangeMax.setValue(self.dataBundle.getProcessed().getMaxQ())
+		except ValueError as e:
+			self.msg(str(e))
 		return
 
+	def msg(self, string):
+		self.statusBar().showMessage(string, msecs=2000)
+		return
 
 if __name__ == "__main__":
 	app = QtWidgets.QApplication(sys.argv)
