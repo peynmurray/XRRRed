@@ -1,6 +1,7 @@
 
 # Holds a bunch of data files together in a bundle
 import numpy as np
+from scipy.optimize import curve_fit
 
 from ReflectometryData import ReflectometryData
 
@@ -135,7 +136,6 @@ class ReflectometryBundle:
 			self.processedScan = (combinedSpecScan-combinedBackScan)
 		else:
 			self.processedScan = (combinedSpecScan - combinedBackScan)/(transmissionCoefficient*combinedSlitScan)
-
 		return
 
 	def sortScans(self, scans):
@@ -174,7 +174,7 @@ class ReflectometryBundle:
 		return ret
 
 	def isProcessed(self):
-		return False if self.processedScan is None else True
+		return self.processedScan is not None
 
 	def getProcessed(self):
 		if self.isProcessed():
@@ -190,3 +190,21 @@ class ReflectometryBundle:
 
 	def getNSlit(self):
 		return len(self.slitScans)
+
+	def guessFootprintCorrection(self):
+
+		indexMaxIntensity = self.processedScan.getIndexMaxIntensity()
+		xdata = self.processedScan.getQ()[0:indexMaxIntensity]
+		ydata = self.processedScan.getIntensity()[0:indexMaxIntensity]
+
+		fitFunction = lambda x, a, b: a*x + b
+		fitParameters, fitConvariances = curve_fit(fitFunction, xdata, ydata)
+
+		return fitParameters[0], fitParameters[1]
+
+	def footprintCorrection(self, minQ, maxQ, slope, intercept):
+
+		correctionCurve = intercept+slope*np.linspace(minQ, maxQ, self.processedScan.getNPoints())
+		self.processedScan = self.processedScan - correctionCurve + self.processedScan.getMaxIntensity()
+
+		return

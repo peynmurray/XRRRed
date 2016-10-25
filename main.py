@@ -5,7 +5,6 @@ import pyqtgraph as pg
 from ReflectometryData import ReflectometryData
 from ReflectometryBundle import ReflectometryBundle
 import numpy as np
-from scipy.optimize import curve_fit
 from CustomViewBox import CustomViewBox
 
 class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
@@ -112,19 +111,9 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
 	def footprintCalcGuessClicked(self):
 
-		scan = self.dataBundle.getProcessed()
-		indexMaxIntensity = scan.getIndexMaxIntensity()
-		xdata = scan.getQ()[0:indexMaxIntensity]
-		ydata = scan.getIntensity()[0:indexMaxIntensity]
-
-		fitFunction = lambda x, a, b: a*x + b
-		fitParameters, fitConvariances = curve_fit(fitFunction, xdata, ydata)
-
-		a, b = fitParameters[0], fitParameters[1]
-
+		a, b = self.dataBundle.guessFootprintCorrection()
 		self.footprintSlope.setValue(a)
 		self.footprintIntercept.setValue(b)
-
 		self.plotDataBundle()
 		self.plotFootprintCorrectionCurve()
 		return
@@ -148,6 +137,8 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		return
 
 	def footprintApplyClicked(self):
+		self.dataBundle.footprintCorrection(minQ=self.footprintRangeMin.value(), maxQ=self.footprintRangeMax.value(), slope=self.footprintSlope.value(), intercept=self.footprintIntercept.value())
+		self.plotDataBundle()
 		return
 
 	def getXCoordinate(self):
