@@ -110,29 +110,29 @@ class ReflectometryData:
 	def __add__(self, value):
 		if type(value) == ReflectometryData:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()+value.getIntensity())
-		elif type(value) == float or type(value) == np.ndarray:
+		elif type(value) == float or type(value) == np.ndarray or type(value) == np.float64:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()+value)
 
 	def __sub__(self, value):
 		if type(value) == ReflectometryData:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()-value.getIntensity())
-		elif type(value) == float or type(value) == np.ndarray:
+		elif type(value) == float or type(value) == np.ndarray or type(value) == np.float64:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()-value)
 
 	def __mul__(self, value):
-		if type(value) == float or type(value) == np.ndarray:
+		if type(value) == float or type(value) == np.ndarray or type(value) == np.float64:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()*value)
 		elif type(value) == ReflectometryData:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()*value.getIntensity())
 
 	def __truediv__(self, value):
-		if type(value) == float or type(value) == np.ndarray:
+		if type(value) == float or type(value) == np.ndarray or type(value) == np.float64:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()/value)
 		elif type(value) == ReflectometryData:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()/value.getIntensity())
 
 	def __floordiv__(self, value):
-		if type(value) == float or type(value) == np.ndarray:
+		if type(value) == float or type(value) == np.ndarray or type(value) == np.float64:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()/value)
 		elif type(value) == ReflectometryData:
 			return ReflectometryData(Q=self.getQ(), intensity=self.getIntensity()/value.getIntensity())

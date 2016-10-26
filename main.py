@@ -37,8 +37,8 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
 	def connectSignals(self):
 
-		# self.actionQ.toggled.connect(self.actionQToggled)
-		# self.action2Theta.toggled.connect(self.action2ThetaToggled)
+		self.actionQ.toggled.connect(self.actionQToggled)
+		self.action2Theta.toggled.connect(self.action2ThetaToggled)
 		self.actionLog.toggled.connect(self.actionLogToggled)
 		self.actionLinear.toggled.connect(self.actionLinearToggled)
 
