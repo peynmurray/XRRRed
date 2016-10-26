@@ -95,6 +95,9 @@ class ReflectometryData:
 	def getFilename(self):
 		return self.filename
 
+	def getMinIntensity(self):
+		return np.min(self.intensity)
+
 	def getMaxIntensity(self):
 		return np.max(self.intensity)
 

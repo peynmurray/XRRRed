@@ -189,7 +189,75 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="plotLayout"/>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <layout class="QVBoxLayout" name="plotLayout"/>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>Y-Axis</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QRadioButton" name="yAxisLog">
+          <property name="text">
+           <string>Log</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup_2</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QRadioButton" name="yAxisLinear">
+          <property name="text">
+           <string>Linear</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup_2</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>X-Axis</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QRadioButton" name="xAxisQ">
+          <property name="text">
+           <string>Q</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QRadioButton" name="xAxis2Theta">
+          <property name="text">
+           <string>2Θ</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -493,34 +561,12 @@
     </property>
     <addaction name="actionExport"/>
    </widget>
-   <widget class="QMenu" name="menuOptions">
-    <property name="title">
-     <string>Options</string>
-    </property>
-    <widget class="QMenu" name="menuX_axis">
-     <property name="title">
-      <string>X-Axis</string>
-     </property>
-     <addaction name="actionQ"/>
-     <addaction name="action2Theta"/>
-    </widget>
-    <widget class="QMenu" name="menuY_Axis">
-     <property name="title">
-      <string>Y-Axis</string>
-     </property>
-     <addaction name="actionLog"/>
-     <addaction name="actionLinear"/>
-    </widget>
-    <addaction name="menuX_axis"/>
-    <addaction name="menuY_Axis"/>
-   </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
      <string>About</string>
     </property>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuOptions"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -575,4 +621,8 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_2"/>
+ </buttongroups>
 </ui>

@@ -13,7 +13,6 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		QtWidgets.QMainWindow.__init__(self)
 		self.setupUi(self)
 		self.connectButtons()
-		self.connectSignals()
 
 		self.dataBundle = ReflectometryBundle()
 		self.initializePlot()
@@ -33,40 +32,23 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.footprintApply.clicked.connect(self.footprintApplyClicked)
 		self.combineScansButton.clicked.connect(self.combineScansButtonClicked)
 
-		return
-
-	def connectSignals(self):
-
-		self.actionQ.toggled.connect(self.actionQToggled)
-		self.action2Theta.toggled.connect(self.action2ThetaToggled)
-		self.actionLog.toggled.connect(self.actionLogToggled)
-		self.actionLinear.toggled.connect(self.actionLinearToggled)
+		self.yAxisLog.toggled.connect(self.yAxisLogToggled)
+		self.xAxisQ.toggled.connect(self.xAxisQToggled)
 
 		return
 
-	def actionLogToggled(self, status):
-		if status:
-			self.actionLinear.setChecked(False)
-			self.refreshPlot()
-		else:
-			self.actionLog.setChecked(True)
+	def yAxisLogToggled(self, b):
+		self.plot.getPlotItem().setLogMode(y=b)
 		return
 
-	def actionLinearToggled(self, status):
-		self.actionLog.setChecked(not status)
-		self.refreshPlot()
-		return
-
-	def xAxisToggled(self):
-		return
-
-	def yAxisToggled(self):
+	def xAxisQToggled(self, b):
+		self.plotDataBundle()
 		return
 
 	def plotDataBundle(self):
 		self.plot.clear()
 
-		getX = lambda scan: scan.getQ() if self.getXCoordinate() == "Q" else lambda scan: scan.getTwoTheta()
+		getX = lambda scan: scan.getQ() if self.xAxisQ.isChecked() else lambda scan: scan.getTwoTheta()
 
 		if self.dataBundle.isProcessed():
 			self.plot.addItem(pg.PlotDataItem(x=getX(self.dataBundle.getProcessed()), y=self.dataBundle.getProcessed().getIntensity(), symbol='t', pen=None, symbolPen=None, symbolSize=10, symbolBrush=(255, 100, 100, 100), name="Data"))
@@ -140,12 +122,6 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.dataBundle.footprintCorrection(minQ=self.footprintRangeMin.value(), maxQ=self.footprintRangeMax.value(), slope=self.footprintSlope.value(), intercept=self.footprintIntercept.value())
 		self.plotDataBundle()
 		return
-
-	def getXCoordinate(self):
-		if self.actionQ.isChecked():
-			return "Q"
-		else:
-			return "twoTheta"
 
 	def refreshPlot(self):
 

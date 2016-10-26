@@ -205,6 +205,6 @@ class ReflectometryBundle:
 	def footprintCorrection(self, minQ, maxQ, slope, intercept):
 
 		correctionCurve = intercept+slope*np.linspace(minQ, maxQ, self.processedScan.getNPoints())
-		self.processedScan = self.processedScan - correctionCurve + self.processedScan.getMaxIntensity()
+		self.processedScan = self.processedScan - correctionCurve
 
 		return
