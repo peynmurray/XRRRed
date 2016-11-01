@@ -99,7 +99,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QPushButton" name="deleteBackgroundButton">
+         <widget class="QPushButton" name="deleteBackButton">
           <property name="text">
            <string>Delete</string>
           </property>
@@ -622,7 +622,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>
