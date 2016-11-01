@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'XRRRedGUI.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -49,9 +49,9 @@ class Ui_MainWindow(object):
         self.loadBackButton.setMaximumSize(QtCore.QSize(300, 16777215))
         self.loadBackButton.setObjectName("loadBackButton")
         self.gridLayout_3.addWidget(self.loadBackButton, 2, 0, 1, 1)
-        self.deleteBackgroundButton = QtWidgets.QPushButton(self.centralwidget)
-        self.deleteBackgroundButton.setObjectName("deleteBackgroundButton")
-        self.gridLayout_3.addWidget(self.deleteBackgroundButton, 2, 1, 1, 1)
+        self.deleteBackButton = QtWidgets.QPushButton(self.centralwidget)
+        self.deleteBackButton.setObjectName("deleteBackButton")
+        self.gridLayout_3.addWidget(self.deleteBackButton, 2, 1, 1, 1)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setMaximumSize(QtCore.QSize(300, 16777215))
         self.label_5.setAlignment(QtCore.Qt.AlignCenter)
@@ -295,7 +295,7 @@ class Ui_MainWindow(object):
         self.deleteSpecButton.setText(_translate("MainWindow", "Delete"))
         self.label_4.setText(_translate("MainWindow", "Specular Scan"))
         self.loadBackButton.setText(_translate("MainWindow", "Load Background"))
-        self.deleteBackgroundButton.setText(_translate("MainWindow", "Delete"))
+        self.deleteBackButton.setText(_translate("MainWindow", "Delete"))
         self.label_5.setText(_translate("MainWindow", "Background Scan"))
         self.loadSlitButton.setText(_translate("MainWindow", "Load Slit"))
         self.deleteSlitButton.setText(_translate("MainWindow", "Delete"))

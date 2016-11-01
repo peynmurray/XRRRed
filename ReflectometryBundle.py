@@ -208,3 +208,15 @@ class ReflectometryBundle:
 		self.processedScan = self.processedScan - correctionCurve
 
 		return
+
+	def deleteSpec(self, index):
+		del self.specScans[index]
+		return
+
+	def deleteBack(self, index):
+		del self.backScans[index]
+		return
+
+	def deleteSlit(self, index):
+		del self.slitScans[index]
+		return

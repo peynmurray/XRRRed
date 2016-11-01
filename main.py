@@ -35,6 +35,31 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		self.yAxisLog.toggled.connect(self.yAxisLogToggled)
 		self.xAxisQ.toggled.connect(self.xAxisQToggled)
 
+		self.deleteBackButton.clicked.connect(self.deleteBackButtonClicked)
+		self.deleteSpecButton.clicked.connect(self.deleteSpecButtonClicked)
+		self.deleteSlitButton.clicked.connect(self.deleteSlitButtonClicked)
+
+		return
+
+	def deleteSpecButtonClicked(self):
+		for item in self.specWidget.selectedItems():
+			index = self.specWidget.row(item)
+			self.specWidget.takeItem(index)
+			self.dataBundle.deleteSpec(index)
+		return
+
+	def deleteBackButtonClicked(self):
+		for item in self.backWidget.selectedItems():
+			index = self.backWidget.row(item)
+			self.backWidget.takeItem(index)
+			self.dataBundle.deleteBack(index)
+		return
+
+	def deleteSlitButtonClicked(self):
+		for item in self.slitWidget.selectedItems():
+			index = self.slitWidget.row(item)
+			self.slitWidget.takeItem(index)
+			self.dataBundle.deleteSlit(index)
 		return
 
 	def yAxisLogToggled(self, b):
