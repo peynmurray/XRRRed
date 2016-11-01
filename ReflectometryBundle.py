@@ -205,3 +205,15 @@ class ReflectometryBundle:
 	def footprintCorrection(self, minQ, maxQ, slope, intercept):
 		self.processedScan = self.processedScan/(intercept+slope*np.linspace(minQ, maxQ, self.processedScan.getNPoints()))
 		return
+
+	def deleteSpec(self, index):
+		del self.specScans[index]
+		return
+
+	def deleteBack(self, index):
+		del self.backScans[index]
+		return
+
+	def deleteSlit(self, index):
+		del self.slitScans[index]
+		return
