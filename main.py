@@ -46,6 +46,7 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 			index = self.specWidget.row(item)
 			self.specWidget.takeItem(index)
 			self.dataBundle.deleteSpec(index)
+		self.plotDataBundle()
 		return
 
 	def deleteBackButtonClicked(self):
@@ -53,6 +54,7 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 			index = self.backWidget.row(item)
 			self.backWidget.takeItem(index)
 			self.dataBundle.deleteBack(index)
+		self.plotDataBundle()
 		return
 
 	def deleteSlitButtonClicked(self):
@@ -60,6 +62,7 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 			index = self.slitWidget.row(item)
 			self.slitWidget.takeItem(index)
 			self.dataBundle.deleteSlit(index)
+		self.plotDataBundle()
 		return
 
 	def yAxisLogToggled(self, b):
@@ -86,6 +89,8 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 		return
 
 	def plotFootprintCorrectionCurve(self):
+		if self.footprintRangeMax.value() - self.footprintRangeMin.value() == 0:
+			return
 		x = np.linspace(self.footprintRangeMin.value(), self.footprintRangeMax.value(), 1000)
 		y = self.footprintSlope.value()*x + self.footprintIntercept.value()
 		self.plot.addItem(pg.PlotDataItem(x=x, y=y, name="Footprint Correction"))
@@ -146,6 +151,18 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 	def footprintApplyClicked(self):
 		self.dataBundle.footprintCorrection(minQ=self.footprintRangeMin.value(), maxQ=self.footprintRangeMax.value(), slope=self.footprintSlope.value(), intercept=self.footprintIntercept.value())
 		self.plotDataBundle()
+
+		self.footprintRangeMax.setEnabled(False)
+		self.footprintRangeMin.setEnabled(False)
+		self.footprintIntercept.setEnabled(False)
+		self.footprintSlope.setEnabled(False)
+		self.footprintApply.setEnabled(False)
+		self.footprintRangeFromGraph.setEnabled(False)
+		self.footprintRangeFull.setEnabled(False)
+		self.footprintCalcMax.setEnabled(False)
+		self.footprintCalcMin.setEnabled(False)
+		self.footprintCalcGuess.setEnabled(False)
+		self.footprintCalcFromGraph.setEnabled(False)
 		return
 
 	def refreshPlot(self):
@@ -154,6 +171,8 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
 		if self.actionLog.isChecked():
 			self.plot.getPlotItem().setLogMode(y=True)
+		else:
+			self.plot.getPlotItem().setLogMode(y=False)
 
 		if self.actionQ.isChecked():
 			self.plot.getPlotItem().setLabel("bottom", text="Q (1/A)")
@@ -176,6 +195,17 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 			self.plotDataBundle()
 			self.footprintRangeMin.setValue(self.dataBundle.getProcessed().getMinQ())
 			self.footprintRangeMax.setValue(self.dataBundle.getProcessed().getMaxQ())
+
+			self.loadSlitButton.setEnabled(False)
+			self.loadBackButton.setEnabled(False)
+			self.loadSpecButton.setEnabled(False)
+			self.deleteSlitButton.setEnabled(False)
+			self.deleteBackButton.setEnabled(False)
+			self.deleteBackButton.setEnabled(False)
+			self.combineScansButton.setEnabled(False)
+			self.specWidget.setEnabled(False)
+			self.backWidget.setEnabled(False)
+			self.slitWidget.setEnabled(False)
 		except ValueError as e:
 			self.msg(str(e))
 		return
