@@ -130,11 +130,15 @@ class ReflectometryBundle:
 			raise ValueError("No spec scans available!")
 		elif combinedBackScan is None and combinedSlitScan is None:
 			self.processedScan = combinedSpecScan
+			print("only spec scan")
 		elif combinedBackScan is None and combinedSlitScan is not None:
+			print("spec and slit")
 			self.processedScan = combinedSpecScan/(transmissionCoefficient*combinedSlitScan)
 		elif combinedBackScan is not None and combinedSlitScan is None:
 			self.processedScan = (combinedSpecScan-combinedBackScan)
+			print("spec and back")
 		else:
+			print("spec, back, and slit")
 			self.processedScan = (combinedSpecScan - combinedBackScan)/(transmissionCoefficient*combinedSlitScan)
 		return
 
@@ -166,7 +170,7 @@ class ReflectometryBundle:
 		#wavelengths, then they can't be compared in twoTheta space, only in Q.
 		stitchedQ = np.hstack(tuple([scan.getQ() for scan in sortedScans]))
 		stitchedIntensity = np.hstack(tuple([scan.getIntensity() for scan in sortedScans]))
-		ret = ReflectometryData(twoTheta=stitchedQ, intensity=stitchedIntensity)
+		ret = ReflectometryData(Q=stitchedQ, intensity=stitchedIntensity)
 
 		#Update the twoTheta values from the default wavelength (Cu K-alpha).
 		ret.updateTwoTheta()

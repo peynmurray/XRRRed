@@ -76,13 +76,19 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 	def plotDataBundle(self):
 		self.plot.clear()
 
-		getX = lambda scan: scan.getQ() if self.xAxisQ.isChecked() else lambda scan: scan.getTwoTheta()
 
 		if self.dataBundle.isProcessed():
-			self.plot.addItem(pg.PlotDataItem(x=getX(self.dataBundle.getProcessed()), y=self.dataBundle.getProcessed().getIntensity(), symbol='t', pen=None, symbolPen=None, symbolSize=10, symbolBrush=(255, 100, 100, 100), name="Data"))
+			if self.xAxisQ.isChecked():
+				self.plot.addItem(pg.PlotDataItem(x=self.dataBundle.getProcessed().getQ(), y=self.dataBundle.getProcessed().getIntensity(), symbol='t', pen=None,symbolPen=None, symbolSize=10, symbolBrush=(255, 100, 100, 100), name="Data"))
+			else:
+				self.plot.addItem(pg.PlotDataItem(x=self.dataBundle.getProcessed().getTwoTheta(), y=self.dataBundle.getProcessed().getIntensity(), symbol='t', pen=None,symbolPen=None, symbolSize=10, symbolBrush=(255, 100, 100, 100), name="Data"))
 		else:
-			for specScan in self.dataBundle.getSpecScans():
-				self.plot.addItem(pg.PlotDataItem(x=getX(specScan), y=specScan.getIntensity(), symbol='t', pen=None, symbolPen=None,symbolSize=10, symbolBrush=(100, 100, 255, 100)))
+			if self.xAxisQ.isChecked():
+				for specScan in self.dataBundle.getSpecScans():
+					self.plot.addItem(pg.PlotDataItem(x=specScan.getQ(), y=specScan.getIntensity(), symbol='t', pen=None, symbolPen=None,symbolSize=10, symbolBrush=(100, 100, 255, 100)))
+			else:
+				for specScan in self.dataBundle.getSpecScans():
+					self.plot.addItem(pg.PlotDataItem(x=specScan.getTwoTheta(), y=specScan.getIntensity(), symbol='t', pen=None, symbolPen=None,symbolSize=10, symbolBrush=(100, 100, 255, 100)))
 
 		self.plot.autoRange()
 		self.refreshPlot()
@@ -169,13 +175,13 @@ class XRRRedGUI(QtWidgets.QMainWindow, XRRRedGUI.Ui_MainWindow, object):
 
 		self.plot.getPlotItem().setLabel("left", text="Intensity")
 
-		if self.actionLog.isChecked():
+		if self.yAxisLog.isChecked():
 			self.plot.getPlotItem().setLogMode(y=True)
 		else:
 			self.plot.getPlotItem().setLogMode(y=False)
 
-		if self.actionQ.isChecked():
-			self.plot.getPlotItem().setLabel("bottom", text="Q (1/A)")
+		if self.xAxisQ.isChecked():
+			self.plot.getPlotItem().setLabel("bottom", text="Q (1/Å)")
 		else:
 			self.plot.getPlotItem().setLabel("bottom", text="2Theta (°)")
 

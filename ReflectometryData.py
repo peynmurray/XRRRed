@@ -70,16 +70,11 @@ class ReflectometryData:
 		return self.wavelength
 
 	def updateQ(self):
-		"""
-		Updates the values in self.Q. In general, Q = (4*pi/lambda)*sin(twoTheta/2)
-		:return:
-		"""
-
-		self.Q = 4*np.pi*np.sin((np.pi/180)*self.twoTheta/2.0)/self.wavelength
+		self.Q = (4*np.pi/self.wavelength)*np.sin((np.pi/180)*self.twoTheta/2.0)
 		return
 
 	def updateTwoTheta(self):
-		self.twoTheta = 2*np.arcsin((self.Q*self.wavelength)/(4*np.pi))*np.pi/180
+		self.twoTheta = np.arcsin((self.Q*self.wavelength)/(4*np.pi))*2*(180/np.pi)
 		return
 
 
