@@ -48,3 +48,4 @@ Temporary Items
 *.pyc
 __pycache__/CustomViewBox.cpython-35.pyc
 *.iml
+*.xml
